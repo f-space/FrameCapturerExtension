@@ -150,7 +150,7 @@ namespace UTJ
 			m_FrameRateMode = FrameRateMode.Variable;
 			m_FrameRate = 30;
 			m_CaptureEveryNthFrame = 2;
-			m_CopyShader = FrameCapturerUtils.GetFrameBufferCopyShader();
+			m_CopyShader = ResourceHelper.LoadCopyShader();
 		}
 
 		protected void OnValidate()

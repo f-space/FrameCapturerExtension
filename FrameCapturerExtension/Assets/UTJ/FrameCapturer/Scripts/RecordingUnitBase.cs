@@ -11,8 +11,6 @@ namespace UTJ
 
 		private const string OffscreenShaderKeyword = "OFFSCREEN";
 
-		private const string DefaultShaderName = "UTJ/FrameCapturer/CopyFrameBuffer";
-
 		#endregion
 
 		#region Fields
@@ -145,13 +143,13 @@ namespace UTJ
 		{
 			if (!quad)
 			{
-				quad = DisposalHelper.Mark(FrameCapturerUtils.CreateFullscreenQuad());
+				quad = DisposalHelper.Mark(ResourceHelper.CreateFullscreenQuad());
 			}
 		}
 
 		private static Shader LoadDefaultShader()
 		{
-			return Shader.Find(DefaultShaderName);
+			return ResourceHelper.LoadCopyShader();
 		}
 
 		#endregion

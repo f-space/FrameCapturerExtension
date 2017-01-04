@@ -124,7 +124,7 @@ namespace UTJ
 			m_OutputDirectory = new DataPath(DataPath.Root.PersistentDataPath, "");
 			m_BeginFrame = 1;
 			m_EndFrame = 100;
-			m_CopyShader = FrameCapturerUtils.GetFrameBufferCopyShader();
+			m_CopyShader = ResourceHelper.LoadCopyShader();
 		}
 
 		protected void OnValidate()

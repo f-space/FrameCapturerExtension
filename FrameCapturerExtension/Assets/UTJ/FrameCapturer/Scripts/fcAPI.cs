@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 namespace UTJ
 {
@@ -326,44 +323,5 @@ namespace UTJ
         {
             return fcMP4AddVideoFrameTextureDeferred(ctx, tex.GetNativeTexturePtr(), fcGetPixelFormat(tex.format), time, id);
         }
-    }
-
-
-    public static class FrameCapturerUtils
-    {
-        public static Mesh CreateFullscreenQuad()
-        {
-            Vector3[] vertices = new Vector3[4] {
-                    new Vector3( 1.0f, 1.0f, 0.0f),
-                    new Vector3(-1.0f, 1.0f, 0.0f),
-                    new Vector3(-1.0f,-1.0f, 0.0f),
-                    new Vector3( 1.0f,-1.0f, 0.0f),
-                };
-            int[] indices = new int[6] { 0, 1, 2, 2, 3, 0 };
-
-            Mesh r = new Mesh();
-            r.vertices = vertices;
-            r.triangles = indices;
-            return r;
-        }
-
-#if UNITY_EDITOR
-        public static bool IsRenderingPathDeferred(Camera cam)
-        {
-            if (cam.renderingPath == RenderingPath.DeferredShading ||
-                (cam.renderingPath == RenderingPath.UsePlayerSettings && PlayerSettings.renderingPath == RenderingPath.DeferredShading))
-            {
-                return true;
-            }
-            return false;
-        }
-#endif // UNITY_EDITOR
-
-#if UNITY_EDITOR
-        public static Shader GetFrameBufferCopyShader()
-        {
-            return AssetDatabase.LoadAssetAtPath<Shader>(AssetDatabase.GUIDToAssetPath("2283fb92223c7914c9096670e29202c8"));
-        }
-    #endif
     }
 }

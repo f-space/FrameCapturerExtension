@@ -44,7 +44,7 @@ namespace UTJ
 			m_CaptureGBuffer = true;
 
 			Camera camera = GetComponent<Camera>();
-			if (!FrameCapturerUtils.IsRenderingPathDeferred(camera))
+			if (camera.actualRenderingPath != RenderingPath.DeferredShading)
 			{
 				m_CaptureGBuffer = false;
 			}
@@ -55,7 +55,7 @@ namespace UTJ
 			base.OnValidate();
 
 			Camera camera = GetComponent<Camera>();
-			if (m_CaptureGBuffer && !FrameCapturerUtils.IsRenderingPathDeferred(camera))
+			if (m_CaptureGBuffer && camera.actualRenderingPath != RenderingPath.DeferredShading)
 			{
 				m_CaptureGBuffer = false;
 
