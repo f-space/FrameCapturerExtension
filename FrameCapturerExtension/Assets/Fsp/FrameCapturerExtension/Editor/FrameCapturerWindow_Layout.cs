@@ -286,42 +286,48 @@ namespace Fsp.FrameCapaturerExtxension
 		private static int EditorGUILayoutPow2Slider(string label, int value, int leftValue, int rightValue, params GUILayoutOption[] options)
 		{
 			int result = value;
-			int log2Value = (int)Mathf.Log(value, 2.0f);
-			int log2Left = (int)Mathf.Log(leftValue, 2.0f);
-			int log2Right = (int)Mathf.Log(rightValue, 2.0f);
 
-			float fieldWidth = EditorGUIUtility.fieldWidth;
-			float width = EditorGUIUtility.currentViewWidth;
-			float height = EditorGUIUtility.singleLineHeight;
-			GUIStyle style = EditorStyles.numberField;
+			EditorGUILayout.BeginHorizontal(options);
 
-			Rect position = GUILayoutUtility.GetRect(width, height, style, options);
-			Rect area = EditorGUI.PrefixLabel(position, new GUIContent(label));
-			Rect sliderPosition = new Rect(area.x, area.y, Mathf.Max(0.0f, area.width - (fieldWidth + 5.0f)), area.height);
-			Rect intFieldPosition = new Rect(area.xMax - fieldWidth, area.y, fieldWidth, area.height);
+			EditorGUILayout.PrefixLabel(label);
 
 			EditorGUI.BeginChangeCheck();
-			int sliderValue = (1 << Mathf.RoundToInt(GUI.HorizontalSlider(sliderPosition, log2Value, log2Left, log2Right)));
+			int sliderValue = GUILayoutPow2Slider(value, leftValue, rightValue);
 			if (EditorGUI.EndChangeCheck())
 			{
 				result = sliderValue;
 			}
 
 			EditorGUI.BeginChangeCheck();
-			int inputFieldValue = GUIDelayedIntField(intFieldPosition, value);
+			int inputFieldValue = GUILayoutDelayedIntField(value, 16, GUILayout.Width(EditorGUIUtility.fieldWidth));
 			if (EditorGUI.EndChangeCheck())
 			{
 				result = Mathf.Clamp(inputFieldValue, leftValue, rightValue);
 			}
 
+			EditorGUILayout.EndHorizontal();
+
 			return result;
 		}
 
-		private static int GUIDelayedIntField(Rect position, int value)
+		private static int GUILayoutPow2Slider(int value, int leftValue, int rightValue, params GUILayoutOption[] options)
 		{
+			float log2Value = Mathf.Log(value, 2.0f);
+			float log2Left = Mathf.Log(leftValue, 2.0f);
+			float log2Right = Mathf.Log(rightValue, 2.0f);
+
+			float slider = GUILayout.HorizontalSlider(log2Value, log2Left, log2Right, options);
+
+			return (1 << Mathf.RoundToInt(slider));
+		}
+
+		private static int GUILayoutDelayedIntField(int value, int maxLength, params GUILayoutOption[] options)
+		{
+			string text = GUILayout.TextField(value.ToString(), maxLength, options);
+
 			int result;
 
-			return int.TryParse(GUI.TextField(position, value.ToString(), 16), out result) ? result : value;
+			return (int.TryParse(text, out result) ? result : value);
 		}
 
 		private static void FitToRect(ref Rect rect, float width, float height, out Rect result)
