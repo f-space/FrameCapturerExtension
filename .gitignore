@@ -1,2 +1,5 @@
 /FrameCapturerExtension/Library
 /FrameCapturerExtension/Temp
+
+*.csproj
+*.sln
