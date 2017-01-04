@@ -17,6 +17,8 @@ namespace Fsp.FrameCapaturerExtxension
 
 		private GUIStyle titleStyle, recordButtonStyle;
 
+		private Vector2 scrollPosition;
+
 		#endregion
 
 		#region Methods
@@ -24,6 +26,8 @@ namespace Fsp.FrameCapaturerExtxension
 		private void Layout()
 		{
 			InitializeGUIStyles();
+
+			scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 
 			DrawHeader();
 
@@ -48,6 +52,8 @@ namespace Fsp.FrameCapaturerExtxension
 				default:
 					throw new InvalidOperationException();
 			}
+
+			EditorGUILayout.EndScrollView();
 		}
 
 		private void InitializeGUIStyles()
